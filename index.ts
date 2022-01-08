@@ -4,12 +4,14 @@ import { routes } from './src/routes/routes';
 import { createConnection } from 'typeorm';
 import { Register } from './src/controller/auth.controller';
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
 require('dotenv').config();
 
 createConnection().then((connection) => {
   const app = express();
   app.use(morgan('dev'));
   app.use(express.json());
+  app.use(cookieParser());
   app.use(
     cors({
       credentials: true, //For exchange cookies, if we do not add this property then we can not reach cookies from front-end
