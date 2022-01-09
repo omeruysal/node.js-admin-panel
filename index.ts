@@ -5,6 +5,7 @@ import { createConnection } from 'typeorm';
 import { Register } from './src/controller/auth.controller';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
+import { Bootstrap } from './src/bootstrap';
 require('dotenv').config();
 const app = express();
 app.use(morgan('dev'));
@@ -18,7 +19,9 @@ app.use(
 );
 
 try {
-  createConnection();
+  (async () => {
+    await createConnection();
+  })();
 
   routes(app);
 

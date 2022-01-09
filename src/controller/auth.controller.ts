@@ -95,9 +95,13 @@ export const Logout = (req: Request, res: Response) => {
 export const UpdateInfo = async (req: Request, res: Response) => {
   try {
     const user = req['user'];
+
     const repository = getManager().getRepository(User);
+
     await repository.update(user.id, req.body);
+
     const { password, ...data } = await repository.findOne(user.id);
+
     res.send(data);
   } catch (error) {
     res.status(400);
