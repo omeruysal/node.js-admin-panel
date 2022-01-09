@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { AuthenticatedUser, Login, Logout, Register, UpdateInfo, UpdatePassword } from '../controller/auth.controller';
+import { CreateUser, DeleteUser, GetUser, UpdatedUser, Users } from '../controller/user.controller';
 import { AuthMiddleware } from '../middleware/auth.middleware';
 
 export const routes = (router: Router) => {
@@ -9,4 +10,10 @@ export const routes = (router: Router) => {
   router.post('/api/logout', AuthMiddleware, Logout);
   router.put('/api/user/info', AuthMiddleware, UpdateInfo);
   router.put('/api/user/password', AuthMiddleware, UpdatePassword);
+
+  router.get('/api/users', AuthMiddleware, Users);
+  router.post('/api/users', AuthMiddleware, CreateUser);
+  router.get('/api/users/:id', AuthMiddleware, GetUser);
+  router.put('/api/users/:id', AuthMiddleware, UpdatedUser);
+  router.delete('/api/users/:id', AuthMiddleware, DeleteUser);
 };
