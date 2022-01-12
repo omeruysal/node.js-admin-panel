@@ -4,6 +4,11 @@ import { User } from '../entity/user.entity';
 import bcryptjs from 'bcryptjs';
 import { RegisterValidation } from '../validation/register.validation';
 import { sign, verify } from 'jsonwebtoken';
+declare module 'express-session' {
+  interface SessionData {
+    browser: string;
+  }
+}
 
 export const Register = async (req: Request, res: Response) => {
   const body = req.body;
@@ -29,8 +34,13 @@ export const Register = async (req: Request, res: Response) => {
   res.send(user);
 };
 
-export const Login = async (req: Request, res: Response) => {
+export const Login = async (
+  req: Request<{}, {}, { email: string; password: string; browser: string }, {}>,
+  res: Response
+) => {
   const repository = getManager().getRepository(User);
+
+  req.session.browser = req.headers['user-agent'];
 
   const user = await repository.findOne({ email: req.body.email });
 

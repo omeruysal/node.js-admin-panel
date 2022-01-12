@@ -37,11 +37,13 @@
   "dependencies": {
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
+    "@types/express-session": "^1.17.4",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
+    "express-session": "^1.17.2",
     "express-validation": "^3.0.8",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
