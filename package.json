@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.ts",
-    "roles:seed": "ts-node bootstrap/roles.bootstrap.ts",
+    "roles:bootstrap": "ts-node bootstrap/roles.bootstrap.ts",
+    "products:bootstrap": "ts-node bootstrap/product.bootstrap.ts",
+    "orders:bootstrap": "ts-node bootstrap/order.bootstrap.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,8 +24,10 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/cookie-parser": "^1.4.2",
+    "@types/json2csv": "^5.0.3",
     "@types/jsonwebtoken": "^8.5.6",
     "@types/morgan": "^1.9.3",
+    "@types/multer": "^1.4.7",
     "@types/node": "^17.0.8",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15",
@@ -44,7 +48,9 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "express-validation": "^3.0.8",
+    "json2csv": "^5.0.6",
     "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.4",
     "mysql2": "^2.3.3",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.41"
