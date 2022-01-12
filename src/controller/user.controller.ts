@@ -4,23 +4,29 @@ import { User } from '../entity/user.entity';
 import bcryptjs from 'bcryptjs';
 
 export const Users = async (req: Request, res: Response) => {
-  try {
-    const repository = getManager().getRepository(User);
+  const take = 15;
+  const page = parseInt((req.query.page as string) || '1'); // We cast as string because req.query.page might take various types
 
-    const users = await repository.find({
-      relations: ['role'], //We should add this parameter if we want to get relational objects too. The keyword must match with the name which field name of user entity
-    });
-    res.status(200).send(
-      users.map((user) => {
-        const { password, ...data } = user;
-        return data;
-      })
-    );
-  } catch (error) {
-    res.status(500).json({
-      error,
-    });
-  }
+  const repository = getManager().getRepository(User);
+
+  const [data, total] = await repository.findAndCount({
+    take,
+    skip: (page - 1) * take,
+    relations: ['role'], //We should add this parameter if we want to get relational objects too. The keyword must match with the name which field name of user entity
+  });
+
+  res.send({
+    data: data.map((u) => {
+      const { password, ...data } = u;
+
+      return data;
+    }),
+    meta: {
+      total,
+      page,
+      last_page: Math.ceil(total / take),
+    },
+  });
 };
 
 export const CreateUser = async (req: Request, res: Response) => {
@@ -72,11 +78,15 @@ export const UpdatedUser = async (req: Request, res: Response) => {
     const { role_id, ...body } = req.body;
 
     const repository = getManager().getRepository(User);
-
-    await repository.update(req.params.id, {
+    const updateBody = {
       ...body,
-      role: { id: role_id },
-    });
+    };
+    if (role_id) {
+      // We add role_id property if role_id is updated too
+      updateBody.role = { id: role_id };
+    }
+
+    await repository.update(req.params.id, updateBody);
 
     const { password, ...user } = await repository.findOne(req.params.id);
 
