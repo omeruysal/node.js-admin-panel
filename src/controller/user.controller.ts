@@ -4,7 +4,7 @@ import { User } from '../entity/user.entity';
 import bcryptjs from 'bcryptjs';
 
 export const Users = async (req: Request, res: Response) => {
-  const take = 15;
+  const take = 5;
   const page = parseInt((req.query.page as string) || '1'); // We cast as string because req.query.page might take various types
 
   const repository = getManager().getRepository(User);
